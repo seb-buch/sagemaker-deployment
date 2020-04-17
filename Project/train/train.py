@@ -3,7 +3,10 @@ import json
 import os
 import pickle
 import sys
-import sagemaker_containers
+try:
+    import sagemaker_containers
+except ImportError:
+    pass
 import pandas as pd
 import torch
 import torch.optim as optim
@@ -70,8 +73,10 @@ def train(model, train_loader, epochs, optimizer, loss_fn, device):
     
     from time import time, sleep
     
-    print("Training model using {}".format(device))
-    
+    print("Model:")
+    print(model)
+    print("Training using {}".format(device))
+
     for epoch in range(1, epochs + 1):
         
         model.train()
@@ -99,10 +104,10 @@ def train(model, train_loader, epochs, optimizer, loss_fn, device):
             
             total_loss += loss.data.item()
             
-            current_percent = 100*(i+1)/len(train_loader)
-            if current_percent > current_percent:
-                percent_done = int(current_percent)
-                print("Epoch: {} %%\r".format(percent_done), end="")
+            #current_percent = 100*(i+1)/len(train_loader)
+            #if current_percent > percent_done:
+            #    percent_done = int(current_percent)
+            #    print("Epoch: {} %%\r".format(percent_done), end="")
 
                 
         end_epoch = time()
